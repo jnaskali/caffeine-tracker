@@ -60,6 +60,12 @@
         cc.setAttribute("fill", "#0f172a");
         cc.setAttribute("stroke", "#1e293b");
         cc.setAttribute("stroke-width", "1.5");
+        
+        const touchCatcher = document.createElementNS(NS, "rect");
+        touchCatcher.setAttribute("width", "500");
+        touchCatcher.setAttribute("height", "500");
+        touchCatcher.setAttribute("fill", "transparent");
+        gBg.appendChild(touchCatcher);
         gBg.appendChild(cc);
 
         for (let h = 0; h < N; h++) {
@@ -178,17 +184,17 @@
         }
     };
 
-    svg.addEventListener("mousemove", e => {
+    const updateTooltip = (clientX, clientY) => {
         const pt = svg.createSVGPoint();
-        pt.x = e.clientX;
-        pt.y = e.clientY;
+        pt.x = clientX;
+        pt.y = clientY;
         const svgP = pt.matrixTransform(svg.getScreenCTM().inverse());
         
         const dx = svgP.x - CX;
         const dy = svgP.y - CY;
         const dist = Math.sqrt(dx * dx + dy * dy);
         
-        if (dist > R_IN - 16 && dist < 320 && cups.length > 0) { 
+        if (dist > R_IN - 16 && cups.length > 0) { 
             let a_norm = Math.atan2(dy, dx) - Math.PI / 2;
             if (a_norm < 0) a_norm += 2 * Math.PI;
             
@@ -206,8 +212,8 @@
             
             if (max_mg >= 0.5) {
                 tooltip.style.opacity = 1;
-                tooltip.style.left = e.clientX + 'px';
-                tooltip.style.top = e.clientY + 'px';
+                tooltip.style.left = clientX + 'px';
+                tooltip.style.top = clientY + 'px';
                 const hh = Math.floor(h);
                 const mm = Math.floor((h % 1) * 60);
                 tooltip.innerHTML = `Time: <strong>${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}</strong><br>Caffeine: <strong>${Math.round(max_mg)} mg</strong>`;
@@ -217,9 +223,38 @@
         } else {
             tooltip.style.opacity = 0;
         }
+    };
+
+    let touchActive = false;
+
+    svg.addEventListener("mousemove", e => {
+        if (!touchActive) updateTooltip(e.clientX, e.clientY);
     });
 
-    svg.addEventListener("mouseleave", () => tooltip.style.opacity = 0);
+    svg.addEventListener("mouseleave", () => {
+        if (!touchActive) tooltip.style.opacity = 0;
+    });
+
+    svg.addEventListener("touchstart", e => {
+        touchActive = true;
+        if (e.touches.length > 0) updateTooltip(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    window.addEventListener("touchmove", e => {
+        if (touchActive && e.touches.length > 0) {
+            updateTooltip(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    const endTouch = () => {
+        if (touchActive) {
+            tooltip.style.opacity = 0;
+            setTimeout(() => touchActive = false, 100);
+        }
+    };
+
+    window.addEventListener("touchend", endTouch);
+    window.addEventListener("touchcancel", endTouch);
 
     document.getElementById("pi-link").addEventListener("click", e => {
         if (e.ctrlKey && e.shiftKey) {
