@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caffeine Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Caffeine Tracker</h1>
+            <p>Click a time segment to add a coffee. Click a red layer to remove it.</p>
+        </header>
+        
+        <main class="dial-container">
+            <svg id="dial" viewBox="0 0 500 500"></svg>
+            <div class="center-content">
+                <div id="center-cups">0 Cups</div>
+                <div id="center-mg"></div>
+                <div id="center-desc">TRACKED</div>
+                <button id="reset-btn" style="display: none;">Reset</button>
+            </div>
+        </main>
+    </div>
+    
+    <div id="tooltip"></div>
+    <div id="pi-link">π</div>
+
+    <script src="app.js"></script>
+</body>
+</html>
