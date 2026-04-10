@@ -1,13 +1,14 @@
 (() => {
     const NS = "http://www.w3.org/2000/svg";
     const CX = 250, CY = 250;
-    const R_IN = 172, R_OUT = 192;
+    const R_IN = 172, R_OUT = 198;
     const MAX_T = 42;
     const HL = 5;
     const MIN_T = 0.4;
     const DECAY = HL * Math.log(MIN_T / MAX_T) / Math.log(0.5);
     const N = 24;
     const GAP = 0.007;
+    const R_CAFF = R_OUT + R_OUT * GAP * 2;
     const STEPS = 240;
 
     let cups = [];
@@ -142,8 +143,8 @@
                 }
 
                 const tc = caffT(elapsed_i);
-                outerPts.push(pt(a, R_OUT + prev + tc));
-                innerPts.push(pt(a, R_OUT + prev));
+                outerPts.push(pt(a, R_CAFF + prev + tc));
+                innerPts.push(pt(a, R_CAFF + prev));
             }
 
             let d = `M ${outerPts[0][0]},${outerPts[0][1]}`;
