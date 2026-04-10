@@ -262,6 +262,26 @@
         }
     });
 
+    const infoBtn = document.getElementById("info-btn");
+    const infoModal = document.getElementById("info-modal-overlay");
+    const closeModalBtn = document.getElementById("close-modal-btn");
+
+    if (infoBtn && infoModal && closeModalBtn) {
+        infoBtn.addEventListener("click", () => {
+            infoModal.classList.remove("hidden");
+        });
+
+        closeModalBtn.addEventListener("click", () => {
+            infoModal.classList.add("hidden");
+        });
+
+        infoModal.addEventListener("click", (e) => {
+            if (e.target === infoModal) {
+                infoModal.classList.add("hidden");
+            }
+        });
+    }
+
     build();
     updateUI(); // Run once to set initial text states correctly
 })();

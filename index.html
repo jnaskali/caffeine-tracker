@@ -1,32 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caffeine Tracker</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1>Caffeine Tracker</h1>
-            <p>Click a time segment to add a coffee. Click a red layer to remove it. Hover/drag for stats.</p>
-        </header>
-        
-        <main class="dial-container">
-            <svg id="dial" viewBox="0 0 500 500"></svg>
-            <div class="center-content">
-                <div id="center-cups">0 Cups</div>
-                <div id="center-mg"></div>
-                <div id="center-desc">TRACKED</div>
-                <button id="reset-btn" style="display: none;">Reset</button>
-            </div>
-        </main>
-    </div>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Caffeine Tracker</title>
+        <meta name="description" content="Simple 24-hour visualization tool to track caffeine consumption and metabolization. Improve sleep by seeing your exact caffeine levels during the day." />
+        <meta name="generator" content="OpenCode.ai / Gemini 3.1 Pro" />
+        <meta name="author" content="Juhani Naskali" />
     
-    <div id="tooltip"></div>
-    <div id="pi-link">π</div>
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://jnaskali.github.io/caffeine-tracker/" />
+        <meta property="og:title" content="Visual 24h Caffeine Tracker" />
+        <meta property="og:description" content="Simple 24-hour visualization tool to track caffeine consumption and metabolization." />
+        <meta property="og:image" content="https://jnaskali.github.io/caffeine-tracker/screenshot.webp" />
+    
+        <link rel="icon" type="image/webp" href="favicon.webp" />
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Caffeine Tracker</h1>
+                <p>
+                    Click a time segment to add a coffee. Click a red layer to
+                    remove it. Hover/drag for stats.
+                </p>
+            </header>
 
-    <script src="app.js"></script>
-</body>
+            <main class="dial-container">
+                <svg id="dial" viewBox="0 0 500 500"></svg>
+                <div class="center-content">
+                    <div id="center-cups">0 Cups</div>
+                    <div id="center-mg"></div>
+                    <div id="center-desc">TRACKED</div>
+                    <button id="reset-btn" style="display: none">Reset</button>
+                </div>
+            </main>
+        </div>
+
+        <div id="tooltip"></div>
+        <div id="pi-link">π</div>
+
+        <button id="info-btn" aria-label="Information">i</button>
+        <div id="info-modal-overlay" class="hidden">
+            <div class="modal-content">
+                <button id="close-modal-btn" aria-label="Close">&times;</button>
+                <h2>Notes on Tracker Usage</h2>
+                <p>
+                    Caffeine is modeled in these calculations with an average
+                    half-life of <b>5 hours</b> and a concentration of <b>120mg per cup</b>.
+                </p>
+                <p>
+                    In healthy adults, caffeine is broken down almost entirely
+                    by the liver enzyme CYP1A2 with a typical plasma elimination half-life
+                    of 3–5 hours, but individual variation is huge:
+                    smokers clear it almost twice as fast, and metabolism is
+                    slowed, for example, in people with obesity or liver
+                    cirrhosis and users of oral contraceptives.¹
+                </p>
+                <p>This software is provided freely under the MIT License.</p>
+                <p>I hope it brings benefit.</p>
+                <p><a href="https://x.com/messages/compose?recipient_id=73860434" title="Send me a DM on X">@jnaskali</a></p>
+                <hr>
+                <small>¹ Grzegorzewski, J., Bartsch, F., Köller, A., &amp; König, M. (2022). Pharmacokinetics of caffeine: a systematic analysis of reported data for application in metabolic phenotyping and liver function testing. <a href="https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2021.752826/full" target="_blank" rel="noopener">Frontiers in pharmacology, 12, 752826.</a></small>
+            </div>
+        </div>
+
+        <script src="app.js"></script>
+    </body>
 </html>
