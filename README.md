@@ -22,7 +22,7 @@
 - **Interactive 24-Hour Dial:** Click on any hour segment to add a cup of coffee.
 - **Accurate Half-life Math:** Calculates physical caffeine decay based on a standard 5-hour half-life per 120mg cup.
 - **Hover Tooltips:** Hover over the ring to see precise remaining caffeine limits down to the minute.
-- **Privacy-First:** Coffee enjoyment data is processed client-side and never saved.
+- **Privacy-First:** Coffee enjoyment data is processed client-side and never saved. Website uses counter.dev to record number of visits anonymously.
 
 ## 🛠️ Built With
 
