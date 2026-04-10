@@ -6,12 +6,22 @@
     const N = 24;                          // Number of hours
     const GAP = 0.007;                     // Gap between hour segments (in radians)
 
+    // === Storage Helpers ===
+    const getCookie = (name) => {
+        const v = `; ${document.cookie}`;
+        const p = v.split(`; ${name}=`);
+        if (p.length === 2) return p.pop().split(';').shift();
+        return null;
+    };
+    const setCookie = (name, val) => document.cookie = `${name}=${val}; max-age=604800; path=/`;
+
     // Physics / Visuals
-    const HL = 5;                          // Half-life of caffeine in hours
+    let HL = parseFloat(getCookie("caffeine_hl")) || 4.5;    // Half-life of caffeine in hours
     const MAX_T = 42;                      // Max visual thickness for the caffeine graph
     const MIN_T = 0.4;                     // Min visual thickness before cutoff
     // Hours it takes for caffeine to decay from MAX_T to MIN_T
-    const DECAY = HL * Math.log(MIN_T / MAX_T) / Math.log(0.5); 
+    let DECAY = HL * Math.log(MIN_T / MAX_T) / Math.log(0.5); 
+    let mgPerCup = parseFloat(getCookie("caffeine_mg")) || 120; // Caffeine per cup in mg
     const R_CAFF = R_OUT + R_OUT * GAP * 2; // Base radius for rendering caffeine layers
     const STEPS = 240;                     // Curve resolution (points per graph)
 
@@ -64,7 +74,7 @@
 
     // Creates a dark blue color gradient for sleep segments based on distance from 4 AM
     const sleepFill = h => {
-        const i = h >= 22 ? h - 22 : h + 2; // Normalize around 4 AM
+        const i = h >= 22 ? h - 22 : h + 2; // Normalize around 2 AM
         const d = Math.abs(i - 4) / 4;
         return `rgb(${15 + 20 * d | 0},${25 + 40 * d | 0},${55 + 50 * d | 0})`;
     };
@@ -228,13 +238,13 @@
         elCenterCups.textContent = `${n} Cup${n === 1 ? '' : 's'}`;
         
         if (n > 0) {
-            elCenterMg.textContent = `${n * 120}mg caffeine`; // Assuming 120mg per cup
+            elCenterMg.textContent = `${n * mgPerCup}mg caffeine`; // Dynamic mg amount
             elCenterMg.style.display = "block";
-            elCenterDesc.textContent = "IN SYSTEM";
+            elCenterDesc.textContent = "DAILY TOTAL";
             elResetBtn.style.display = "block";
         } else {
             elCenterMg.style.display = "none";
-            elCenterDesc.textContent = "TRACKED";
+            elCenterDesc.textContent = "ENJOYED";
             elResetBtn.style.display = "none";
         }
     };
@@ -265,7 +275,7 @@
                 // If hover time is logically before cup time, calculate based on yesterday's cup
                 if (elapsed < 0) elapsed += 24;
                 
-                max_mg += 120 * Math.pow(0.5, elapsed / HL);
+                max_mg += mgPerCup * Math.pow(0.5, elapsed / HL);
             });
             
             if (max_mg >= 0.5) {
@@ -322,7 +332,6 @@
 
     const endTouch = () => {
         if (touchActive) {
-            tooltip.style.opacity = 0;
             setTimeout(() => touchActive = false, 100);
         }
     };
@@ -339,10 +348,31 @@
 
     // Modal controls
     if (infoBtn && infoModal && closeModalBtn) {
+        const hlInput = getEl("hl-input");
+        const mgInput = getEl("mg-input");
+
+        hlInput.value = HL;
+        mgInput.value = mgPerCup;
+
+        const hideModal = () => {
+            infoModal.classList.add("hidden");
+            const newHL = parseFloat(hlInput.value) || 4.5;
+            const newMg = parseFloat(mgInput.value) || 120;
+            if (newHL !== HL || newMg !== mgPerCup) {
+                HL = newHL;
+                mgPerCup = newMg;
+                setCookie("caffeine_hl", HL);
+                setCookie("caffeine_mg", mgPerCup);
+                DECAY = HL * Math.log(MIN_T / MAX_T) / Math.log(0.5);
+                render();
+                updateUI();
+            }
+        };
+
         infoBtn.addEventListener("click", () => infoModal.classList.remove("hidden"));
-        closeModalBtn.addEventListener("click", () => infoModal.classList.add("hidden"));
+        closeModalBtn.addEventListener("click", hideModal);
         infoModal.addEventListener("click", (e) => {
-            if (e.target === infoModal) infoModal.classList.add("hidden");
+            if (e.target === infoModal) hideModal();
         });
     }
 

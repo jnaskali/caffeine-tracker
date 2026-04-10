@@ -1,30 +1,30 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Caffeine Tracker</title>
-        <meta name="description" content="Simple 24-hour visualization tool to track caffeine consumption and metabolization. Improve sleep by seeing your exact caffeine levels during the day." />
-        <meta name="generator" content="OpenCode.ai / Gemini 3.1 Pro" />
-        <meta name="author" content="Juhani Naskali" />
+        <meta name="description" content="Simple 24-hour visualization tool to track caffeine consumption and metabolism. Improve sleep by seeing your exact caffeine levels during the day.">
+        <meta name="generator" content="OpenCode.ai / Gemini 3.1 Pro">
+        <meta name="author" content="Juhani Naskali">
     
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://jnaskali.github.io/caffeine-tracker/" />
-        <meta property="og:title" content="Caffeine Tracker" />
-        <meta property="og:description" content="Simple 24-hour visualization tool to track caffeine consumption and metabolization." />
-        <meta property="og:image" content="https://jnaskali.github.io/caffeine-tracker/screenshot.webp" />
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://jnaskali.github.io/caffeine-tracker/">
+        <meta property="og:title" content="Caffeine Tracker">
+        <meta property="og:description" content="Simple 24-hour visualization tool to track caffeine consumption and metabolism.">
+        <meta property="og:image" content="https://jnaskali.github.io/caffeine-tracker/screenshot.webp">
     
-        <meta name="theme-color" content="#0f172a" />
-        <link rel="icon" type="image/webp" href="favicon.webp" />
-        <link rel="stylesheet" href="style.css" />
+        <meta name="theme-color" content="#0f172a">
+        <link rel="icon" type="image/webp" href="favicon.webp">
+        <link rel="stylesheet" href="style.css">
     </head>
     <body>
         <div class="container">
             <header>
                 <h1>Caffeine Tracker</h1>
                 <p>
-                    Click a time segment to add a coffee. Click a red layer to
-                    remove it. Hover/drag for stats.
+                    Click a time segment to add a coffee. Click a red layer to remove it.
+                    Hover cursor or <b>drag finger along outer rim</b> for stats. Figures are approximate.
                 </p>
             </header>
 
@@ -33,7 +33,7 @@
                 <div class="center-content">
                     <div id="center-cups">0 Cups</div>
                     <div id="center-mg"></div>
-                    <div id="center-desc">TRACKED</div>
+                    <div id="center-desc"></div>
                     <button id="reset-btn" style="display: none">Reset</button>
                 </div>
             </main>
@@ -47,22 +47,31 @@
             <div class="modal-content">
                 <button id="close-modal-btn" aria-label="Close">&times;</button>
                 <h2>Notes on Tracker Usage</h2>
-                <p>
-                    Caffeine is modeled in these calculations with an average
-                    half-life of <b>5 hours</b> and a concentration of <b>120mg per cup</b>.
-                </p>
+                <p>Caffeine metabolism is modeled with usual averages. Customize at will (saves a 7-day browser cookie).</p>
+                <div class="settings-grid">
+                    <span>Individual half-life:</span>
+                    <span><input type="number" id="hl-input" class="inline-input" value="4.5" min="0.1" max="100" step="any"> hours</span>
+                    <span>Concentration:</span>
+                    <span><input type="number" id="mg-input" class="inline-input" value="120" min="1" max="5000" step="any"> mg/cup</span>
+                </div>
                 <p>
                     In healthy adults, caffeine is broken down almost entirely
                     by the liver enzyme CYP1A2 with a typical plasma elimination half-life
-                    of 3–5 hours, but individual variation is huge:
+                    of 2.5 – 5 hours, but individual variation is huge:
                     smokers clear it almost twice as fast, and metabolism is
                     slowed, for example, in people with obesity or liver
                     cirrhosis and users of oral contraceptives.¹
                 </p>
-                <p>This software is provided freely under the MIT License.</p>
-                <p>I hope it brings benefit.</p>
-                <p><a href="https://x.com/messages/compose?recipient_id=73860434" title="Send me a DM on X">@jnaskali</a></p>
-                <hr>
+                <p>
+                    Caffeine concentration also varies; for example,
+                    an espresso can hold ~75mg, cold brew ~190mg, a large drip-coffee mug ~220mg
+                    and a Starbucks Venti ~400mg.
+                </p>
+                <p>I use <a href="https://counter.dev/" title="Privacy First ❤">counter.dev</a> to count anonymous visitors. This software is provided freely under the MIT License. Code available as a <a href="https://github.com/jnaskali/caffeine-tracker/archive/refs/heads/master.zip">ZIP download</a>.</p>
+                <p>
+                    I hope you benefit,<br>
+                    <a href="https://x.com/messages/compose?recipient_id=73860434" title="Send me a DM on X">@jnaskali</a>
+                </p>
                 <small>¹ Grzegorzewski, J., Bartsch, F., Köller, A., &amp; König, M. (2022). Pharmacokinetics of caffeine: a systematic analysis of reported data for application in metabolic phenotyping and liver function testing. <a href="https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2021.752826/full" target="_blank" rel="noopener">Frontiers in pharmacology, 12, 752826.</a></small>
             </div>
         </div>
