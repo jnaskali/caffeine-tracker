@@ -359,7 +359,7 @@
         const updateCookieText = () => {
             if (!cookieInfo) return;
             if (getCookie("caffeine_hl") || getCookie("caffeine_mg")) {
-                cookieInfo.innerHTML = '(7-day cookie saved <a href="#" id="delete-cookies-btn" style="text-decoration:none" aria-label="Delete cookies" title="Delete cookies">🗑️</a>)';
+                cookieInfo.innerHTML = '(7-day cookie present <a href="#" id="delete-cookies-btn" style="text-decoration:none" aria-label="Delete cookies" title="Delete cookies">🗑️</a>)';
                 getEl("delete-cookies-btn").addEventListener("click", (e) => {
                     e.preventDefault();
                     deleteCookie("caffeine_hl");
@@ -402,6 +402,17 @@
         closeModalBtn.addEventListener("click", hideModal);
         infoModal.addEventListener("click", (e) => {
             if (e.target === infoModal) hideModal();
+        });
+
+        const accordions = document.querySelectorAll(".accordion");
+        accordions.forEach(acc => {
+            acc.addEventListener("toggle", () => {
+                if (acc.open) {
+                    accordions.forEach(other => {
+                        if (other !== acc) other.open = false;
+                    });
+                }
+            });
         });
     }
 

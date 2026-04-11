@@ -24,7 +24,8 @@
                 <h1>Caffeine Tracker</h1>
                 <p>
                     Click a time segment to add a coffee. Click a red layer to remove it.
-                    Hover cursor or <b>drag finger along outer rim</b> for stats. Figures are approximate.
+                    Hover cursor or <b>drag finger along outer rim</b> for stats.<br>
+                        Figures are approximate. Settings at bottom.
                 </p>
             </header>
 
@@ -46,33 +47,63 @@
         <div id="info-modal-overlay" class="hidden">
             <div class="modal-content">
                 <button id="close-modal-btn" aria-label="Close">&times;</button>
-                <h2>Notes on Tracker Usage</h2>
-                <p>Caffeine metabolism is modeled with usual averages. Customize at will <span id="cookie-info">(saves a 7-day browser cookie)</span>.</p>
+                <h2>Settings & Info</h2>
+                <p>Personalization options <span id="cookie-info">(saves a 7-day browser cookie)</span>.</p>
                 <div class="settings-grid">
                     <span>Individual half-life:</span>
                     <span><input type="number" id="hl-input" class="inline-input" value="4.5" min="0.1" max="100" step="any"> hours</span>
                     <span>Concentration:</span>
                     <span><input type="number" id="mg-input" class="inline-input" value="120" min="1" max="5000" step="any"> mg/cup</span>
                 </div>
-                <p>
-                    In healthy adults, caffeine is broken down almost entirely
-                    by the liver enzyme CYP1A2 with a typical plasma elimination half-life
-                    of 2.5 – 5 hours, but individual variation is huge:
-                    smokers clear it almost twice as fast, and metabolism is
-                    slowed, for example, in people with obesity or liver
-                    cirrhosis and users of oral contraceptives.¹
-                </p>
-                <p>
-                    Caffeine concentration also varies; for example,
-                    an espresso can hold ~75mg, cold brew ~190mg, a large drip-coffee mug ~220mg
-                    and a Starbucks Venti ~400mg.
-                </p>
-                <p>I use <a href="https://counter.dev/" title="Privacy First ❤">counter.dev</a> to count anonymous visitors. This software is provided freely under the MIT License. Code available as a <a href="https://github.com/jnaskali/caffeine-tracker/archive/refs/heads/master.zip">ZIP download</a>.</p>
-                <p>
-                    I hope you benefit,<br>
-                    <a href="https://x.com/messages/compose?recipient_id=73860434" title="Send me a DM on X">@jnaskali</a>
-                </p>
-                <small>¹ Grzegorzewski, J., Bartsch, F., Köller, A., &amp; König, M. (2022). Pharmacokinetics of caffeine: a systematic analysis of reported data for application in metabolic phenotyping and liver function testing. <a href="https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2021.752826/full" target="_blank" rel="noopener">Frontiers in pharmacology, 12, 752826.</a></small>
+                <details class="accordion">
+                    <summary>Half-Life &amp; Metabolism</summary>
+                    <div class="accordion-content">
+                        <p>Caffeine is primarily metabolized by the liver enzyme CYP1A2, but half-lives vary hugely between individuals.</p>
+                        <div class="data-grid">
+                            <div class="data-card"><span><b>Baseline adult</b></span><strong>~4–5 h</strong></div>
+                            <div class="data-card"><span>Fast metabolizer</span><strong>~2–3 h</strong></div>
+                            <div class="data-card"><span>Heavy smoker</span><strong>~3 h</strong></div>
+                            <div class="data-card"><span>Antibiotics</span><strong>~5–8 h</strong></div>
+                            <div class="data-card"><span>Slow metabolizer</span><strong>~6–10 h</strong></div>
+                            <div class="data-card"><span>Oral contraceptives</span><strong>~10–11 h</strong></div>
+                            <div class="data-card"><span>Pregnancy</span><strong>3–15 h</strong></div>
+                            <div class="data-card"><span>Fluvoxamine (SSRI)</span><strong>~31 h</strong></div>
+                            <div class="data-card"><span>Liver disease</span><strong>~6–168 h</strong></div>
+                        </div>
+                        <small>Grzegorzewski, J., Bartsch, F., Köller, A., &amp; König, M. (2022). Pharmacokinetics of caffeine: a systematic analysis of reported data for application in metabolic phenotyping and liver function testing. <a href="https://www.frontiersin.org/journals/pharmacology/articles/10.3389/fphar.2021.752826/full" target="_blank" rel="noopener">Frontiers in pharmacology, 12, 752826.</a></small>
+                    </div>
+                </details>
+
+                <details class="accordion">
+                    <summary>Beverage Concentrations</summary>
+                    <div class="accordion-content">
+                        <div class="data-grid">
+                            <div class="data-card"><span><b>Filtered coffee</b>, large cup (250ml)</span><strong>~120 mg</strong></div>
+                            <div class="data-card"><span>Chocolate (50g)</span><strong>~10 mg</strong></div>
+                            <div class="data-card"><span>Cola can (355ml)</span><strong>~40 mg</strong></div>
+                            <div class="data-card"><span>Black tea (300ml cup)</span><strong>~50 mg</strong></div>
+                            <div class="data-card"><span>Espresso (single)</span><strong>~80 mg</strong></div>
+                            <div class="data-card"><span>Energy drink (can)</span><strong>~150 mg</strong></div>
+                            <div class="data-card"><span>Cold brew (glass)</span><strong>~190 mg</strong></div>
+                            <div class="data-card"><span>Coffee, Finnish mug</span><strong>~240 mg</strong></div>
+                            <div class="data-card"><span>Starbucks Venti</span><strong>~400 mg</strong></div>
+                        </div>
+                        <p>Concentration varies by brand and preparation method. <a href="https://www.caffeineinformer.com/the-caffeine-database">Caffeine Informer</a> provides more examples.</p>
+                    </div>
+                </details>
+
+                <details class="accordion" open>
+                    <summary>About This App</summary>
+                    <div class="accordion-content">
+                        <p>This software is provided freely under the <b>MIT License</b> and runs completely in your browser.</p>
+                        <p>Code hosted on <a href="https://github.com/jnaskali/caffeine-tracker">GitHub</a>. No individual data is collected, though I use <a href="https://counter.dev/" title="Privacy First ❤">Counter.dev</a> to count anonymous visitors.</p>
+                        <p>Read <a href="https://www.naskali.fi/programming/coffee-genes-and-gemini-tracking-caffeine-around-the-clock/" title="Coffee, Genes and Gemini: Tracking Caffeine Around the Clock">my blog post</a> for more background or to leave a comment!</p>
+                        <p>
+                            I hope you benefit,<br>
+                            /Juhani
+                        </p>
+                    </div>
+                </details>
             </div>
         </div>
 
