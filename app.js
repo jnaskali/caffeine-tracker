@@ -14,6 +14,7 @@
         return null;
     };
     const setCookie = (name, val) => document.cookie = `${name}=${val}; max-age=604800; path=/`;
+    const deleteCookie = (name) => document.cookie = `${name}=; max-age=0; path=/`;
 
     // Physics / Visuals
     let HL = parseFloat(getCookie("caffeine_hl")) || 4.5;    // Half-life of caffeine in hours
@@ -350,12 +351,27 @@
     if (infoBtn && infoModal && closeModalBtn) {
         const hlInput = getEl("hl-input");
         const mgInput = getEl("mg-input");
+        const cookieInfo = getEl("cookie-info");
 
         hlInput.value = HL;
         mgInput.value = mgPerCup;
 
-        const hideModal = () => {
-            infoModal.classList.add("hidden");
+        const updateCookieText = () => {
+            if (!cookieInfo) return;
+            if (getCookie("caffeine_hl") || getCookie("caffeine_mg")) {
+                cookieInfo.innerHTML = '(7-day cookie saved <a href="#" id="delete-cookies-btn" style="text-decoration:none" aria-label="Delete cookies" title="Delete cookies">🗑️</a>)';
+                getEl("delete-cookies-btn").addEventListener("click", (e) => {
+                    e.preventDefault();
+                    deleteCookie("caffeine_hl");
+                    deleteCookie("caffeine_mg");
+                    updateCookieText();
+                });
+            } else {
+                cookieInfo.textContent = '(saves a 7-day browser cookie)';
+            }
+        };
+
+        const applySettings = () => {
             const newHL = parseFloat(hlInput.value) || 4.5;
             const newMg = parseFloat(mgInput.value) || 120;
             if (newHL !== HL || newMg !== mgPerCup) {
@@ -363,13 +379,26 @@
                 mgPerCup = newMg;
                 setCookie("caffeine_hl", HL);
                 setCookie("caffeine_mg", mgPerCup);
+                updateCookieText();
                 DECAY = HL * Math.log(MIN_T / MAX_T) / Math.log(0.5);
                 render();
                 updateUI();
             }
         };
 
-        infoBtn.addEventListener("click", () => infoModal.classList.remove("hidden"));
+        const hideModal = () => {
+            infoModal.classList.add("hidden");
+        };
+
+        hlInput.addEventListener("input", applySettings);
+        mgInput.addEventListener("input", applySettings);
+
+        infoBtn.addEventListener("click", () => {
+            updateCookieText();
+            infoModal.classList.remove("hidden");
+        });
+
+        updateCookieText(); // Init text
         closeModalBtn.addEventListener("click", hideModal);
         infoModal.addEventListener("click", (e) => {
             if (e.target === infoModal) hideModal();
