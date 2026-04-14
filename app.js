@@ -416,6 +416,9 @@
         });
     }
 
+    if (getCookie("caffeine_hl")) setCookie("caffeine_hl", HL);
+    if (getCookie("caffeine_mg")) setCookie("caffeine_mg", mgPerCup);
+
     // Initialize application
     build();
     updateUI(); 
